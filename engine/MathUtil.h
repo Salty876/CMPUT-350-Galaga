@@ -173,17 +173,21 @@ struct Line {
 
 static std::ostream &operator<<(std::ostream &os, const Line &l) {
     // TODO: write this code
+    os << "Line from " << l.p1 << " to " << l.p2;
     return os;
 }
 
 struct Circle {
     Point2D center;
     float radius;
-
     Circle(Point2D c = {0, 0}, float r = 0) : center(c), radius(r) {}
-
     Circle(float x, float y, float r) : center(x, y), radius(r) {}
 };
+
+static std::ostream &operator<<(std::ostream os, const Circle &c) {
+    os << "Center: " << c.center << " and Radius: " << c.radius;
+    return os;
+}
 
 struct Rect {
     Point2D topLeft;
@@ -205,39 +209,106 @@ struct Rect {
 
     Rect &operator|=(const Rect &other) {
         // TODO: write this code
+        // check width
+        Point2D currBotRight(topLeft.x + width, topLeft.y + height);
+        Point2D otherBotRitgh(other.topLeft.x + other.width, other.topLeft.y + other.height);
+        topLeft.x = std::min(topLeft.x, other.topLeft.x);
+        topLeft.x = std::min(topLeft.y, other.topLeft.y);
+
+        Point2D maxBotRight;
+
+        maxBotRight.x = std::max(currBotRight.x, otherBotRitgh.x);
+        maxBotRight.y = std::max(currBotRight.y, otherBotRitgh.y);
+
+        width = maxBotRight.x - topLeft.x;
+        height = maxBotRight.y = topLeft.y;
+
         return *this;
     }
+
     Rect &operator|=(const Point2D &other) {
         // TODO: write this code
+        Point2D currBotRight(topLeft.x + width, topLeft.y + height);
+        topLeft.x = std::min(topLeft.x, other.x);
+        topLeft.x = std::min(topLeft.y, other.y);
+
+        Point2D maxBotRight;
+
+        maxBotRight.x = std::max(currBotRight.x, other.x);
+        maxBotRight.y = std::max(currBotRight.y, other.y);
+
+        width = maxBotRight.x - topLeft.x;
+        height = maxBotRight.y = topLeft.y;
+
         return *this;
     }
     Rect &operator|=(const Line &other) {
         // TODO: write this code
+        *this |= other.p1;
+        *this |= other.p2;
+
         return *this;
     }
     Rect &operator&=(const Rect &other) {
         // TODO: write this code
+        Point2D currBotRight(topLeft.x + width, topLeft.y + height);
+        Point2D otherBotRitgh(other.topLeft.x + other.width, other.topLeft.y + other.height);
+
+        float newTopLeftX = std::max(topLeft.x, other.topLeft.x);
+        float newTopLeftY = std::max(topLeft.y, other.topLeft.y);
+
+        Point2D minBotRight;
+
+        minBotRight.x = std::min(currBotRight.x, otherBotRitgh.x);
+        minBotRight.y = std::min(currBotRight.y, otherBotRitgh.y);
+
+        // overlap check
+        if (minBotRight.x > newTopLeftX && minBotRight.y > newTopLeftY){
+            topLeft.x = newTopLeftX;
+            topLeft.y = newTopLeftY;
+            width = minBotRight.x - topLeft.x;
+            height = minBotRight.y - topLeft.y;
+        } else {
+            topLeft.x = 0;
+            topLeft.y = 0;
+            width = 0;
+            height = 0;
+        }
+
+
+
         return *this;
     }
     Rect &operator+=(const Point2D &other) {
         // TODO: write this code
+        *this |= other;
         return *this;
     }
     Rect operator+(const Point2D &other) const {
         // TODO: write this code
-        return *this;
+        Rect retVal = *this;
+        retVal += other;
+        return retVal;
     }
     void Inset(int inset) {
         // TODO: write this code
+        topLeft += static_cast<float>(inset);
+        width -= (2.f * static_cast<float>(inset));
+        height -= (2.f * static_cast<float>(inset));
     }
     bool IsInside(const Point2D &p) const {
         // TODO: write this code
+        Point2D rightBot(topLeft.x + width, topLeft.y + height);
+        if (topLeft.x < p.x && p.x < rightBot.x && topLeft.y < p.y && p.y < rightBot.y) {
+            return true;
+        }
         return false;
     }
 };
 
 static std::ostream &operator<<(std::ostream &os, const Rect &l) {
     // TODO: write this code
+    os << "Top Left: " << l.topLeft << " and Width: " << l.width << " and Height: " << l.height; 
     return os;
 }
 
