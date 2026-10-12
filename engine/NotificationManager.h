@@ -1,3 +1,6 @@
+#ifndef NOTIFICATION_MANAGER_H
+#define NOTIFICATION_MANAGER_H
+
 #include <memory>
 #include <vector>
 #include <unordered_map>
@@ -14,3 +17,5 @@ private:
 };
 
 }
+
+#endif
