@@ -4,6 +4,26 @@
 
 namespace CMPUT350 {
 
+void SetContextOffset(Point2D p) {
+
+}
+
+void SetContextRotation(float rotation) {
+
+}
+
+Point2D Transform(Point2D p) {
+
+}
+
+Point2D ReverseTransform(Point2D p) {
+
+}
+
+Rect Transform(Rect r) {
+
+}
+
 DrawContext::DrawContext(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<sf::Font> font)
     : mWindow(window), mFont(font) {}
 
