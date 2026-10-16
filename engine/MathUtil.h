@@ -71,8 +71,8 @@ struct Point2D {
     Point2D &operator/=(const int &scalar) {
         // TODO: write this code
 
-        x /= scalar;
-        y /= scalar;
+        x /= static_cast<float>(scalar);
+        y /= static_cast<float>(scalar);
         return *this;
     }
     float operator*(const Point2D &other) const {
@@ -166,8 +166,9 @@ struct Line {
         }
 
         Point2D intersect = p1 + (p2 - p1) * t;
+        crossingPoint = intersect;
 
-        return (intersect == crossingPoint);
+        return true;
     }
 };
 
@@ -184,7 +185,7 @@ struct Circle {
     Circle(float x, float y, float r) : center(x, y), radius(r) {}
 };
 
-static std::ostream &operator<<(std::ostream os, const Circle &c) {
+static std::ostream &operator<<(std::ostream &os, const Circle &c) {
     os << "Center: " << c.center << " and Radius: " << c.radius;
     return os;
 }
@@ -213,7 +214,7 @@ struct Rect {
         Point2D currBotRight(topLeft.x + width, topLeft.y + height);
         Point2D otherBotRitgh(other.topLeft.x + other.width, other.topLeft.y + other.height);
         topLeft.x = std::min(topLeft.x, other.topLeft.x);
-        topLeft.x = std::min(topLeft.y, other.topLeft.y);
+        topLeft.y = std::min(topLeft.y, other.topLeft.y);
 
         Point2D maxBotRight;
 
@@ -221,7 +222,7 @@ struct Rect {
         maxBotRight.y = std::max(currBotRight.y, otherBotRitgh.y);
 
         width = maxBotRight.x - topLeft.x;
-        height = maxBotRight.y = topLeft.y;
+        height = maxBotRight.y - topLeft.y;
 
         return *this;
     }
@@ -230,7 +231,7 @@ struct Rect {
         // TODO: write this code
         Point2D currBotRight(topLeft.x + width, topLeft.y + height);
         topLeft.x = std::min(topLeft.x, other.x);
-        topLeft.x = std::min(topLeft.y, other.y);
+        topLeft.y = std::min(topLeft.y, other.y);
 
         Point2D maxBotRight;
 
@@ -238,7 +239,7 @@ struct Rect {
         maxBotRight.y = std::max(currBotRight.y, other.y);
 
         width = maxBotRight.x - topLeft.x;
-        height = maxBotRight.y = topLeft.y;
+        height = maxBotRight.y - topLeft.y;
 
         return *this;
     }

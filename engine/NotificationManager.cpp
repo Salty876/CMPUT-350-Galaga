@@ -12,7 +12,7 @@ namespace CMPUT350 {
         }
         // we already have the key in the map
         else {
-            mListeners[key].push_back(object);
+            mListeners.at(key).push_back(object);
         }
     }
 
@@ -21,18 +21,23 @@ namespace CMPUT350 {
         std::vector<std::weak_ptr<GameObject>> newTargetObjects; 
         //make new vector with objects I wanna keep
         for (auto obj: targetObjects) {
-            if (obj.lock() != object.lock()) {
-                newTargetObjects.push_back(obj);
+            if (obj.lock() != nullptr) {
+                if (obj.lock() != object.lock()) {
+                    newTargetObjects.push_back(obj);
+                }
             }
+
         }
 
-        mListeners[key] = newTargetObjects;
+        mListeners.insert_or_assign(key, newTargetObjects);
     }
 
     void NotificationManager::Notify(const std::string& message) {
         std::vector<std::weak_ptr<GameObject>> targets = mListeners[message];
         for (auto obj: targets) {
-            obj.lock()->ReceiveNotification(message);
+            if (obj.lock() != nullptr) {
+                obj.lock()->ReceiveNotification(message);
+            }
         }
     }
 }
