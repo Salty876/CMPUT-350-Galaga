@@ -69,14 +69,19 @@ void DrawContext::DrawCenteredText(const std::string &text, int pixelSize, Point
         sfText.getLocalBounds().position.x + sfText.getLocalBounds().size.x / 2.0f, 
         sfText.getLocalBounds().position.y + sfText.getLocalBounds().size.y / 2.0f));
 
+    p = Transform(p);
     sfText.setPosition(sf::Vector2f(p.x, p.y));
+    sfText.setRotation(sf::radians(mRotation));
     sfText.setFillColor(sf::Color(c.r, c.g, c.b));
     mWindow->draw(sfText);
 }
 
 void DrawContext::DrawText(const std::string &text, int pixelSize, Point2D p, RGBColor c) {
     sf::Text sfText(*mFont, text, pixelSize);
+
+    p = Transform(p);
     sfText.setPosition(sf::Vector2f(p.x, p.y));
+    sfText.setRotation(sf::radians(mRotation));
     sfText.setFillColor(sf::Color(c.r, c.g, c.b));
     mWindow->draw(sfText);
 }
@@ -87,6 +92,7 @@ void DrawContext::DrawCircle(Point2D p, float radius, RGBColor c) {
     // Default position is top-left
     // Center(x) = x_value - radius
     // Center(y) = y_value - radius
+    p = Transform(p);
     sfCircle.setPosition(sf::Vector2f(p.x - radius, p.y - radius));
     sfCircle.setFillColor(sf::Color(c.r, c.g, c.b));
     mWindow->draw(sfCircle);
@@ -94,7 +100,8 @@ void DrawContext::DrawCircle(Point2D p, float radius, RGBColor c) {
 
 void DrawContext::DrawRect(Rect r, RGBColor c) {
     sf::RectangleShape sfRectangle(sf::Vector2f(r.width, r.height));
-    sfRectangle.setPosition(sf::Vector2f(r.topLeft.x, r.topLeft.y));
+    Point2D p = Transform(r.topLeft)
+    sfRectangle.setPosition(sf::Vector2f(p.x, r .y));
     sfRectangle.setFillColor(sf::Color(c.r, c.g, c.b));
     mWindow->draw(sfRectangle);
 }
@@ -103,7 +110,9 @@ void DrawContext::FrameRect(Rect r, float width, RGBColor c) {
     sf::RectangleShape sfRectangle(sf::Vector2f(r.width, r.height));
     sfRectangle.setOutlineColor(sf::Color(c.r, c.g, c.b));
     sfRectangle.setOutlineThickness(-1 * width); // Prevent rectangle frame from exceeding it's bounds
-    sfRectangle.setPosition(sf::Vector2f(r.topLeft.x, r.topLeft.y));
+
+    Point2D p = Transform(r.topLeft)
+    sfRectangle.setPosition(sf::Vector2f(p.x, p.y));
     sfRectangle.setFillColor(sf::Color::Transparent);
     mWindow->draw(sfRectangle);
 }
