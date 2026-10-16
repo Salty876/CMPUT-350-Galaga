@@ -3,6 +3,7 @@
 
 #include "CollisionObject.h"
 #include "GameContext.h"
+#include "GameObject.h"
 
 class Bullet : public CMPUT350::CollisionObject
 {
@@ -22,14 +23,25 @@ public:
 	CMPUT350::Point2D GetLocation() const override;
 	float GetRotation() const override;
 
+  
+
 private:
+    bool IsValidTargetEnemy(std::shared_ptr<CMPUT350::CollisionObject> obj);
+    bool IsValidTargetPlayer(std::shared_ptr<CMPUT350::CollisionObject> obj);
+    bool IsValidTargetBullet(std::shared_ptr<CMPUT350::CollisionObject> obj);
+    bool hasCollisionPoint;
     bool mIsAlive;
     bool mIsPlayerBullet;
     CMPUT350::Point2D mCurrentLocation;
     CMPUT350::Point2D mPreviousLocation;
     CMPUT350::Point2D mHeading; // Direction
+    CMPUT350::Point2D mCollisionPoint;
     CMPUT350::Rect mBounds;
+    std::vector<CMPUT350::Shape> mShapes;
     float mBulletSpeed;
+    std::weak_ptr<CMPUT350::GameObject> mParent;
+    bool collided;
+
 };
 
 #endif // BULLET_H
