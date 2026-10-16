@@ -9,6 +9,8 @@ class GameContext;
 
 class GraphicsObject : public GameObject {
 public:
+    virtual Point2D GetLocation() const = 0;
+    virtual float GetRotation() const = 0;
     virtual void RenderBackground(GameContext *context);
     virtual void RenderForeground(GameContext *context);
 };
