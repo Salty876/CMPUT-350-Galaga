@@ -2,6 +2,10 @@
 #include "DrawContext.h"
 #include "Stars.h"
 
+Point2D Stars::GetLocation() { return Point2D(0, 0); }; // Default location
+
+float Stars::GetRotation() { return 0; }; // Default rotation
+
 Stars::Stars(int numStars, CMPUT350::Rect bounds)
     : mBounds(bounds), gen(rd())
 {
