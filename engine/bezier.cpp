@@ -1,5 +1,5 @@
 #include <vector>
-#include "bezier.h"
+#include "Bezier.h"
 #include "MathUtil.h"
 
 namespace CMPUT350 {
