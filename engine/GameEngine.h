@@ -9,6 +9,7 @@ class GameEngine;
 #include "EngineView.h"
 #include "GameObject.h"
 #include "MathUtil.h"
+#include "NotificationManager.h"
 #include <SFML/Graphics.hpp>
 
 namespace CMPUT350 {
@@ -34,6 +35,25 @@ public:
     // that will be rendered in the next frame
     void AddGameObject(std::shared_ptr<GameObject> gameObject) override;
 
+    void InstallKeyDownNotification(int, const std::string &notification) override;
+    void InstallKeyUpNotification(int, const std::string &notification) override;
+
+	const_iterator cbegin() const override {
+        return mObjects.cbegin();
+    }
+
+	const_iterator cend() const override {
+        return mObjects.cend();
+    }
+
+	const_iterator begin() const override {
+        return mObjects.begin();
+    }
+
+	const_iterator end() const override {
+        return mObjects.end();
+    }
+
     // 1. Remove dead objects
     // 2. Add and initialize new objects
     // 3. Process any SFML events to capture key hits
@@ -47,10 +67,18 @@ public:
     void Run();
 
 private:
+    using NotificationMap = std::unordered_map<int, std::vector<std::string>>;
+
     std::shared_ptr<sf::RenderWindow> mWindow;
     std::shared_ptr<sf::Font> mFont;
     std::vector<std::shared_ptr<GameObject>> mObjects;
     std::vector<std::shared_ptr<GameObject>> mNewObjects;
+
+    NotificationManager mNotificationManager;
+
+    // Map key-scancode to Notification strings.
+    NotificationMap mKeyDownNotifications;
+    NotificationMap mKeyUpNotifications;
 
     // Helper functions for Run()
     void ProcessEvents(GameContext *context);
