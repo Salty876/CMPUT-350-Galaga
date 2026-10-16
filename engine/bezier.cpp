@@ -4,6 +4,8 @@
 
 namespace CMPUT350 {
 
+    
+
     Bezier::Bezier(const std::vector<Point2D> &pts) : pts(pts) {}
 
     Point2D Bezier::GetPoint(float t) const {
@@ -38,6 +40,9 @@ namespace CMPUT350 {
         return Point2D(dBx, dBy);
     }
 
+
+
+
     static Point2D GetPoint(const std::vector<Point2D> &pts, float t) {
         float mem1x = (1.0f - t) * (1.0f - t) * (1.0f - t) * pts[0].x;
         float mem2x = 3 * (1.f - t) * (1.f - t) * t * pts[1].x;
@@ -69,4 +74,5 @@ namespace CMPUT350 {
         
         return Point2D(dBx, dBy);
     }
+
 }
