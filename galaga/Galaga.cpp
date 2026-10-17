@@ -159,7 +159,7 @@ void Galaga::RenderUI(GameContext *context) {
 
     if (mState == State::Wait) {
         centered("Galaga", 72, y - 150.f);
-        centered(mCredits > 0 ? "Press 1 to start the game." : "Press 5 to insert a coin.", 32, y);
+        centered(mCredits > 0 ? "Start game (1)" : "Insert coin (5)", 32, y);
         return;
     }
 
@@ -168,7 +168,7 @@ void Galaga::RenderUI(GameContext *context) {
     gui->DrawText("Remaining lives: " + std::to_string(mLives), 24, Point2D(20.f, mHeight - 70.f), Colors::white);
 
     if (mState == State::Start) centered("Level " + std::to_string(mLevel), 48, y);
-    if (mState == State::Over) centered("Game over!", 72, y);
+    if (mState == State::Over) centered("Game over!", 24, y);
 }
 
 void Galaga::ReceiveNotification(const std::string &key) {
