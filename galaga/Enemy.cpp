@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "Bullet.h"
+#include "GameContext.h"
 #include "MathUtil.h"
 #include "bezier.h"
 
@@ -35,6 +36,8 @@ void Enemy::Initialize(CMPUT350::GameContext* context)
 {
     // No action required
 }
+
+
 
 void Enemy::Update(CMPUT350::GameContext* context)
 {
@@ -88,6 +91,11 @@ void Enemy::Update(CMPUT350::GameContext* context)
             CMPUT350::Point2D newSlope = mAttackPath.GetSlope(mPathProgress);
             mRotation = std::atan2(newSlope.y, newSlope.x);
             // will fire bullets here
+
+            if (context->currentFrame % 60 == 0) {
+                CMPUT350::Point2D heading = CMPUT350::Point2D(0, 1);
+                Bullet shot = Bullet::Bullet(mLocation, heading)
+            }
 
             if (mPathProgress >= 1){
                 mPathProgress = 0;
