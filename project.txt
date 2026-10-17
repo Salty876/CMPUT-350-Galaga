@@ -1,0 +1,3 @@
+Project Overview
+
+- This project consists of a simple game engine that acts as a wrapper over SFML and provides several convenient features, as well as a sample game implemented using this game engine, Galaga.
