@@ -35,15 +35,19 @@ killed by enemy bullets. It subscribes to Key notifications for WASD and Space. 
 moving/shooting action takes place. Player is a simple object made up of 3 lines.
 
 There are 3 enemy sub-classes, they may have one of the 4 states: ENTRY, FORMATION, 
-ATTACK, RETURNING.
+ATTACK, RETURNING. On formation they move side to side before moving to the ATTACK state where they attempt to attack
+the player. Then they return back to their formation.
 
 Bullets are made up of a head and tail points and create a small circle upon a collision.
+
 
 NotificationManager class is responsible for allowing different game objects to subscribe to recieve
 notifications based on a key(A) and a message(MoveLeft).
 
 MathUtil contains all of the Linear Algebra operations and Geometry
 that this project needs.
+
+Bezier has the cubic bezier curve equation and the slope equation we use to make the enemies follow a path.
 
 We define different types of collisions, including Circle-Circle, Line-Line, Rect-Rect(AABB), and Circle-Rect
 as helper functions in GameEngine.cpp.
