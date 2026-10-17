@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <cmath>
+
 #include "DrawContext.h"
 #include "MathUtil.h"
 #include <SFML/Graphics.hpp>
@@ -40,21 +43,16 @@ Rect DrawContext::Transform(Rect r) {
         { r.topLeft.x + r.width, r.topLeft.y },
         { r.topLeft.x + r.width, r.topLeft.y + r.height },
         { r.topLeft.x, r.topLeft.y + r.height }
-    }
+    };
 
     for (int i = 0; i < 4; ++i) points[i] = Transform(points[i]);
 
-    float min_x = std::min({p1.x, p2.x, p3.x, p4.x});
-    float max_x = std::max({p1.x, p2.x, p3.x, p4.x});
-    float min_y = std::min({p1.y, p2.y, p3.y, p4.y});
-    float max_y = std::max({p1.y, p2.y, p3.y, p4.y});
+    float min_x = std::min({points[0].x, points[1].x, points[2].x, points[3].x});
+    float max_x = std::max({points[0].x, points[1].x, points[2].x, points[3].x});
+    float min_y = std::min({points[0].y, points[1].y, points[2].y, points[3].y});
+    float max_y = std::max({points[0].y, points[1].y, points[2].y, points[3].y});
 
-    return 
-        Rect(
-            min_x, 
-            min_y, 
-            max_x - min_x, 
-            max_y - min_y); // AABB
+    return Rect(min_x, min_y, max_x - min_x, max_y - min_y); // AABB
 }
 
 DrawContext::DrawContext(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<sf::Font> font)
@@ -100,8 +98,8 @@ void DrawContext::DrawCircle(Point2D p, float radius, RGBColor c) {
 
 void DrawContext::DrawRect(Rect r, RGBColor c) {
     sf::RectangleShape sfRectangle(sf::Vector2f(r.width, r.height));
-    Point2D p = Transform(r.topLeft)
-    sfRectangle.setPosition(sf::Vector2f(p.x, r .y));
+    Point2D p = Transform(r.topLeft);
+    sfRectangle.setPosition(sf::Vector2f(p.x, p.y));
     sfRectangle.setFillColor(sf::Color(c.r, c.g, c.b));
     mWindow->draw(sfRectangle);
 }
@@ -111,7 +109,7 @@ void DrawContext::FrameRect(Rect r, float width, RGBColor c) {
     sfRectangle.setOutlineColor(sf::Color(c.r, c.g, c.b));
     sfRectangle.setOutlineThickness(-1 * width); // Prevent rectangle frame from exceeding it's bounds
 
-    Point2D p = Transform(r.topLeft)
+    Point2D p = Transform(r.topLeft);
     sfRectangle.setPosition(sf::Vector2f(p.x, p.y));
     sfRectangle.setFillColor(sf::Color::Transparent);
     mWindow->draw(sfRectangle);
@@ -131,7 +129,7 @@ void DrawContext::FrameRect(Rect r, float width, RGBColor c) {
  */
 void DrawContext::DrawLine(Point2D from, Point2D to, float width, RGBColor c) {
     to = Transform(to);
-    from = Transform(form);
+    from = Transform(from);
     
     if (to == from) return;
 

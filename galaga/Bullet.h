@@ -10,9 +10,11 @@ class Bullet : public CMPUT350::CollisionObject
 public:
 	Bullet(CMPUT350::Point2D location, CMPUT350::Point2D heading, bool player, std::weak_ptr<CMPUT350::GameObject> parent);
 	bool IsPlayerBullet();
-	void Update(CMPUT350::GameContext *context);
-	void LateUpdate(CMPUT350::GameContext *context);
-	void RenderForeground(CMPUT350::GameContext *context);
+	void Initialize(CMPUT350::GameContext *context) override;
+	void Update(CMPUT350::GameContext *context) override;
+	void LateUpdate(CMPUT350::GameContext *context) override;
+	void RenderBackground(CMPUT350::GameContext *context) override;
+	void RenderForeground(CMPUT350::GameContext *context) override;
 	bool IsAlive() const override;
 	void Kill() override;
 	const std::vector<CMPUT350::Shape> &GetShapes() override;
@@ -22,8 +24,6 @@ public:
 	
 	CMPUT350::Point2D GetLocation() const override;
 	float GetRotation() const override;
-
-  
 
 private:
     bool IsValidTargetEnemy(std::shared_ptr<CMPUT350::CollisionObject> obj);

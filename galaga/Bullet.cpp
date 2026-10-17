@@ -67,11 +67,13 @@ void Bullet::Update(CMPUT350::GameContext* context)
     
 
     // Update bounds accordingly
-    CMPUT350::Point2D start = CMPUT350::Point2D( -1.f * CMPUT350::Line(mPreviousLocation, mCurrentLocation).Length(), 0.f);
-    CMPUT350::Point2D end = CMPUT350::Point2D(0, 0);
+    float length = CMPUT350::Line(mPreviousLocation, mCurrentLocation).Length();
+    CMPUT350::Point2D tail(-length, 0.f);
+    CMPUT350::Point2D head(0.f, 0.f);
+
     mShapes.clear();
-    mShapes.push_back(CMPUT350::Shape(CMPUT350::Line(start, end)));
-    this->mBounds = CMPUT350::Rect(start, end);
+    mShapes.push_back(CMPUT350::Shape(CMPUT350::Line(head, tail)));
+    this->mBounds = CMPUT350::Rect(CMPUT350::Point2D(-length, -3.f), length, 6.f);
     return;
 }
 

@@ -3,6 +3,7 @@
 #include "DrawContext.h"
 #include "GraphicsObject.h"
 #include "CollisionObject.h"
+#include <float.h>
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>

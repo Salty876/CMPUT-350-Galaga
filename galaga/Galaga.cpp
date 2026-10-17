@@ -16,11 +16,11 @@ void Galaga::Initialize(GameContext *context) {
     EngineView *engine = context->mEngineView;
 
     // Movement can be done in two ways.
-    for (Key k : {Key::Left, Key::A}) {
+    for (auto k : {Key::Left, Key::A}) {
         engine->InstallKeyDownNotification(static_cast<int>(k), "MoveLeftDown");
         engine->InstallKeyUpNotification(static_cast<int>(k), "MoveLeftUp");
     }
-    for (Key k : {Key::Right, Key::D}) {
+    for (auto k : {Key::Right, Key::D}) {
         engine->InstallKeyDownNotification(static_cast<int>(k), "MoveRightDown");
         engine->InstallKeyUpNotification(static_cast<int>(k), "MoveRightUp");
     }
@@ -178,8 +178,8 @@ void Galaga::ReceiveNotification(const std::string &key) {
         mStartPressed = true;
     } else if (key == "EnemyDied") {
         for (auto i = mEnemies.begin(); i != mEnemies.end();) {
-            if (it->expired()) {
-                i = mEnemies.erase(it);
+            if (i->expired()) {
+                i = mEnemies.erase(i);
                 continue;
             }
 

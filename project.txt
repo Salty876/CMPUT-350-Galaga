@@ -1,3 +1,57 @@
-Project Overview
+Project Overview >
 
-- This project consists of a simple game engine that acts as a wrapper over SFML and provides several convenient features, as well as a sample game implemented using this game engine, Galaga.
+- This project consists of a simple game engine that acts as a 
+wrapper over SFML and provides several convenient features, as 
+well as a sample game implemented using this game engine, Galaga.
+
+Distribution of work >
+
+- For part 1 (a), Saleh was responsible for GameObject, GraphicsObject, 
+MathUtil, and CollisionObject, and Harsh was responsible for DrawContext,
+GameContext, GameEngine, and EngineView.
+
+- For part 1 (b), Saleh was responsible for all of the Notification logic,
+all of the Bezier logic, updates to Enemy class and Bullet class, meanwhile
+Harsh was responsible for main loop, Galaga class, and updates to existing files
+such as GameEngine, Player, and CollisionObject.
+
+Implementation >
+
+Our implementation consists of a main loop that adds a Galaga object to the
+game engine, the Galaga object is responsible for maintaining the lifecycles 
+of all other objects. The class is a state machine that has different states, including 
+wait state when there is no coin inserted, start state which exists for a small period to
+show the current level, and play state when new enemies are spawned and the gameplay takes
+place. Enemies spawn and move along Bezier paths until all of them die or the Player
+loses all lives. The state variables including how fast the enemies attack, how fast
+new waves get deployed, and how many enemies are deployed in each wave, etc. are all
+modifiable through the static constexpr variables in Galaga.h. These may also be declared
+as environment variables or as a configuration file for better control.
+
+Stars object is as provided + with default definitions of GetRotation and GetLocation, which
+are new functions to create the paradigm of separate coordinate systems for GameObjects and the
+Game window. Player is a simple object that may be moving left or right, can fire bullets, and gets 
+killed by enemy bullets. It subscribes to Key notifications for WASD and Space. Upon these the appropriate
+moving/shooting action takes place. Player is a simple object made up of 3 lines.
+
+There are 3 enemy sub-classes, they may have one of the 4 states: ENTRY, FORMATION, 
+ATTACK, RETURNING.
+
+Bullets are made up of a head and tail points and create a small circle upon a collision.
+
+NotificationManager class is responsible for allowing different game objects to subscribe to recieve
+notifications based on a key(A) and a message(MoveLeft).
+
+MathUtil contains all of the Linear Algebra operations and Geometry
+that this project needs.
+
+We define different types of collisions, including Circle-Circle, Line-Line, Rect-Rect(AABB), and Circle-Rect
+as helper functions in GameEngine.cpp.
+
+The game logic is handled in the Galaga class which keeps track of the game state,
+manages game logic, spawning players, enemies, and subscribing to Key board notifications.
+
+GameEngine keeps two hashmaps for KeyUp and KeyDown notifications.
+
+Draw Context is an API layer between the GameEngine client and the SFML library. We expose different Drawing functions
+within this class.
